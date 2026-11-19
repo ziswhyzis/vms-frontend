@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <base href="$FLUTTER_BASE_HREF">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Stark Group Vehicle Management System - fleet register for the Stark Group.">
+  <meta name="theme-color" content="#00081C">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <title>Stark Group VMS</title>
+  <style>
+    body { background-color: #00081C; margin: 0; }
+    .boot-splash {
+      position: fixed; inset: 0; display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: 14px;
+      background: radial-gradient(circle at 20% 10%, #001A3F 0%, #00081C 60%);
+      font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      transition: opacity 240ms ease;
+    }
+    .boot-splash .mark {
+      width: 64px; height: 64px; border-radius: 18px;
+      background: linear-gradient(135deg, #00C0F0, #0060F0);
+      display: flex; align-items: center; justify-content: center;
+      color: #fff; font-weight: 800; font-size: 22px; letter-spacing: 1px;
+      box-shadow: 0 0 40px rgba(0, 184, 240, 0.35);
+    }
+    .boot-splash .name { color: #fff; font-size: 14px; font-weight: 800; letter-spacing: 3px; }
+    .boot-splash .sub { color: rgba(255, 255, 255, 0.55); font-size: 10px; letter-spacing: 2px; }
+  </style>
+</head>
+<body>
+  <div class="boot-splash" id="boot-splash">
+    <div class="mark">SG</div>
+    <div class="name">STARK GROUP</div>
+    <div class="sub">VEHICLE MANAGEMENT SYSTEM</div>
+  </div>
+  <script type="text/javascript" src="flutter_bootstrap.js" async></script>
+  <script>
+    window.addEventListener('flutter-first-frame', function () {
+      var splash = document.getElementById('boot-splash');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(function () { splash.remove(); }, 260);
+      }
+    });
+  </script>
+</body>
+</html>

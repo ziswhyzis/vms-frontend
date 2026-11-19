@@ -1,0 +1,11 @@
+# Flutter / Dart build output
+.dart_tool/
+build/
+coverage/
+.packages
+.flutter-plugins
+.flutter-plugins-dependencies
+
+# Editor metadata
+*.iml
+.idea/

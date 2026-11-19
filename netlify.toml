@@ -1,0 +1,19 @@
+[build]
+  command = "bash netlify-build.sh"
+  publish = "build/web"
+
+[build.environment]
+  FLUTTER_VERSION = "3.50.0"
+
+# Flutter Web is a single-page app: route every unknown path back to index.html.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "SAMEORIGIN"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
