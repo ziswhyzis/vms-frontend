@@ -17,15 +17,21 @@ The Spring Boot API this client talks to lives in a separate repository
 
 ## Screens
 
-| Sign in | Fleet register (desktop) |
+| Sign in | Create account |
 |---|---|
-| ![Sign in](docs/screenshots/login.png) | ![Fleet register](docs/screenshots/fleet-desktop.png) |
+| ![Sign in](docs/screenshots/login.png) | ![Create account](docs/screenshots/signup.png) |
+
+| Fleet register (desktop) |
+|---|
+| ![Fleet register](docs/screenshots/fleet-desktop.png) |
 
 | Fleet register (mobile) |
 |---|
 | ![Fleet register on a narrow viewport](docs/screenshots/fleet-mobile.png) |
 
 - **Sign in** — username/password, inline error banner for rejected credentials.
+- **Create account** — full name, username, password + confirmation; creates an
+  operator and signs it in, so a fresh deployment is never locked out.
 - **Application shell** — 250 px navy sidebar on wide screens, drawer + top bar on
   narrow ones, operator card with sign out.
 - **Fleet register** — server-side pagination and sorting, status badges,
@@ -67,7 +73,7 @@ in the client; the JWT is obtained at sign-in and stored per browser.
 
 ```bash
 flutter analyze     # 0 issues
-flutter test        # 41 widget + contract tests
+flutter test        # 47 widget + contract tests
 ```
 
 The widget tests use `MockClient`, so no backend or browser is required. A real
@@ -107,7 +113,7 @@ lib/
   screens/      LoginScreen, VehiclesScreen
   widgets/      AppShell, VehicleFormDialog, ConfirmDeleteDialog,
                 PaginationBar, StatusBadge, BrandMark
-test/           41 widget + contract tests
+test/           47 widget + contract tests
 integration_test/  real-browser end-to-end journey
 web/            index.html, manifest, icons (PWA shell)
 ```

@@ -48,13 +48,32 @@ class AuthService {
       'username': username.trim(),
       'password': password,
     });
+    return _persist(payload, 'sign-in');
+  }
+
+  /// Creates an operator account. The backend signs the new account in, so the
+  /// returned session can be stored exactly like a normal login.
+  Future<User> register({
+    required String fullName,
+    required String username,
+    required String password,
+  }) async {
+    final payload = await _api.post('/auth/register', {
+      'username': username.trim(),
+      'fullName': fullName.trim(),
+      'password': password,
+    });
+    return _persist(payload, 'registration');
+  }
+
+  Future<User> _persist(Object? payload, String flow) async {
     if (payload is! Map<String, dynamic>) {
-      throw const ApiException(500, 'Unexpected response from the sign-in service.');
+      throw ApiException(500, 'Unexpected response from the $flow service.');
     }
     final token = payload['token'];
     final rawUser = payload['user'];
     if (token is! String || token.isEmpty || rawUser is! Map<String, dynamic>) {
-      throw const ApiException(500, 'The sign-in response did not include a token.');
+      throw ApiException(500, 'The $flow response did not include a token.');
     }
     final user = User.fromJson(rawUser);
     _api.setToken(token);

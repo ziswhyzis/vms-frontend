@@ -35,6 +35,16 @@ String loginJson({String token = demoToken}) => jsonEncode({
       'user': userJson(),
     });
 
+String registerJson({
+  String token = demoToken,
+  String username = 'jane.doe',
+  String fullName = 'Jane Doe',
+}) => jsonEncode({
+      'token': token,
+      'expiresAt': '2026-11-17T18:00:00Z',
+      'user': userJson(username: username, fullName: fullName),
+    });
+
 Map<String, dynamic> vehicleJson({
   int id = 1,
   String number = 'DHA-GA-11-1001',

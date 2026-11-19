@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/testing.dart';
+import 'package:stark_group_vms/core/api_client.dart';
 import 'package:stark_group_vms/core/api_exception.dart';
 
 import 'test_support.dart';
@@ -31,6 +32,21 @@ void main() {
       expect(captured!.url.queryParameters['sort'], 'vehicleNumber,asc');
       expect(captured!.headers['Authorization'], 'Bearer abc-123');
       expect(captured!.headers['Content-Type'], 'application/json');
+    });
+
+    test('normalises a trailing slash in the configured base URL', () async {
+      http.Request? captured;
+      final client = ApiClient(
+        httpClient: MockClient((request) async {
+          captured = request;
+          return jsonResponse([]);
+        }),
+        baseUrl: 'https://vms-api.onrender.com/',
+      );
+
+      await client.get('/health');
+
+      expect(captured!.url.toString(), 'https://vms-api.onrender.com/health');
     });
 
     test('maps a 409 payload with field errors', () async {

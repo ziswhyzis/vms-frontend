@@ -16,7 +16,8 @@ import 'config.dart';
 class ApiClient {
   ApiClient({http.Client? httpClient, String? baseUrl})
       : _http = httpClient ?? http.Client(),
-        _baseUrl = baseUrl ?? AppConfig.apiBaseUrl;
+        // Trailing slashes in a copied deployment URL would produce '//vehicles'.
+        _baseUrl = (baseUrl ?? AppConfig.apiBaseUrl).replaceFirst(RegExp(r'/+$'), '');
 
   final http.Client _http;
   final String _baseUrl;
@@ -24,7 +25,9 @@ class ApiClient {
 
   void Function()? onUnauthorized;
 
-  static const Duration _timeout = Duration(seconds: 20);
+  /// Generous enough to survive a cold start on a free hosting tier, where the
+  /// first request after an idle period can take 30-60 seconds.
+  static const Duration _timeout = Duration(seconds: 60);
 
   String get baseUrl => _baseUrl;
   String? get token => _token;
@@ -71,7 +74,7 @@ class ApiClient {
       if (error is ApiException) {
         rethrow;
       }
-      throw const ApiException(0, 'Could not reach the server. Is the backend running?');
+      throw const ApiException(0, 'Could not reach the server. Please try again.');
     }
 
     final decoded = _decode(response.body);
