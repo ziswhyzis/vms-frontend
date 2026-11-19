@@ -335,10 +335,9 @@ class _LoginScreenState extends State<LoginScreen> {
               textInputAction: TextInputAction.next,
               autofillHints: const [AutofillHints.username],
               onChanged: (_) => _clearFieldError('username'),
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 labelText: 'Username',
-                hintText: _signUp ? 'e.g. jane.doe' : 'e.g. admin',
-                prefixIcon: const Icon(Icons.person_outline, size: 19),
+                prefixIcon: Icon(Icons.person_outline, size: 19),
               ),
               validator: _validateUsername,
             ),
