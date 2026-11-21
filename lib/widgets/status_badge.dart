@@ -11,9 +11,9 @@ class StatusBadge extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (Color background, Color foreground) = switch (status) {
-      VehicleStatus.active => (const Color(0xFFEAF8E3), const Color(0xFF2C7A1D)),
-      VehicleStatus.inactive => (const Color(0xFFEEF1F5), const Color(0xFF5B6B80)),
-      VehicleStatus.maintenance => (const Color(0xFFFFF3DC), const Color(0xFF9A6207)),
+      VehicleStatus.active => (StarkColors.sage.withValues(alpha: 0.38), StarkColors.sageInk),
+      VehicleStatus.inactive => (StarkColors.cream, StarkColors.inkMuted),
+      VehicleStatus.maintenance => (StarkColors.rose.withValues(alpha: 0.28), StarkColors.roseInk),
     };
 
     return Container(
@@ -56,16 +56,16 @@ class TypeChip extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 4),
       decoration: BoxDecoration(
-        color: StarkColors.navy.withValues(alpha: 0.06),
+        color: StarkColors.sage.withValues(alpha: 0.28),
         borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: StarkColors.line),
       ),
       child: Text(
         type.label,
         style: const TextStyle(
           fontSize: 11.5,
-          fontWeight: FontWeight.w600,
-          color: StarkColors.navySoft,
-          letterSpacing: 0.4,
+          fontWeight: FontWeight.w700,
+          color: StarkColors.tealInk,
         ),
       ),
     );

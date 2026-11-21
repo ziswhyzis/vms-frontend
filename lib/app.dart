@@ -7,6 +7,7 @@ import 'screens/vehicles_screen.dart';
 import 'services/auth_service.dart';
 import 'services/vehicle_service.dart';
 import 'widgets/brand_mark.dart';
+import 'widgets/lattice_background.dart';
 
 class StarkVmsApp extends StatelessWidget {
   const StarkVmsApp({
@@ -129,36 +130,37 @@ class _SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: StarkColors.navy,
+    return const LatticeScaffold(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const BrandMark(size: 64, glow: true),
-            const SizedBox(height: 18),
-            const Text(
-              'STARK GROUP',
+            BrandMark(size: 64, glow: true),
+            SizedBox(height: 18),
+            Text(
+              'Stark Group',
               style: TextStyle(
-                color: Colors.white,
-                fontSize: 15,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 3,
+                fontFamily: 'Fraunces',
+                color: StarkColors.ink,
+                fontSize: 28,
+                fontWeight: FontWeight.w500,
               ),
             ),
-            const SizedBox(height: 6),
-            const Text(
-              'VEHICLE MANAGEMENT SYSTEM',
-              style: TextStyle(color: Colors.white54, fontSize: 10, letterSpacing: 2, fontWeight: FontWeight.w600),
+            SizedBox(height: 4),
+            Text(
+              'All in one space',
+              style: TextStyle(
+                fontFamily: 'Fraunces',
+                color: StarkColors.teal,
+                fontSize: 22,
+                fontWeight: FontWeight.w500,
+              ),
             ),
-            const SizedBox(height: 26),
+            SizedBox(height: 26),
             SizedBox(
               width: 22,
               height: 22,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.2,
-                color: StarkColors.cyan.withValues(alpha: 0.9),
-              ),
+              child: CircularProgressIndicator(strokeWidth: 2.2, color: StarkColors.teal),
             ),
           ],
         ),

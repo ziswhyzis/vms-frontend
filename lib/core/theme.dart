@@ -1,54 +1,85 @@
 import 'package:flutter/material.dart';
 
-/// Palette sampled from the Stark Group launch artwork:
-/// deep navy base, cyan infrastructure accent, lime "active" signal.
+/// Warm workbench palette.
+/// Cream is the shell, sage is a quiet fill, muted teal is the action color,
+/// and dusty rose marks anything destructive.
 class StarkColors {
   const StarkColors._();
 
-  static const Color navy = Color(0xFF00081C);
-  static const Color navySoft = Color(0xFF00102E);
-  static const Color navyLift = Color(0xFF0B1C3A);
-  static const Color cyan = Color(0xFF00B8F0);
-  static const Color cyanDeep = Color(0xFF00779C);
-  static const Color lime = Color(0xFF66D93F);
-  static const Color amber = Color(0xFFF2A93B);
-  static const Color red = Color(0xFFFF4D5E);
+  static const Color cream = Color(0xFFF3E9DC);
+  static const Color sage = Color(0xFF9CAF88);
+  static const Color teal = Color(0xFF4F7C82);
+  static const Color rose = Color(0xFFC08081);
 
-  static const Color canvas = Color(0xFFF5F7FA);
-  static const Color surface = Colors.white;
-  static const Color ink = Color(0xFF0E1B2C);
-  static const Color inkMuted = Color(0xFF5B6B80);
-  static const Color line = Color(0xFFDCE3EC);
+  static const Color canvas = cream;
+  static const Color surface = Color(0xFFFCF8EE);
+  static const Color ink = Color(0xFF244043);
+  static const Color inkMuted = Color(0xFF52675F);
+  static const Color line = Color(0xFFCFD2B8);
+  static const Color lattice = Color(0xFFE7E2D6);
+
+  /// Same hues, darkened only where small text has to sit on cream.
+  static const Color tealInk = Color(0xFF3E656A);
+  static const Color roseInk = Color(0xFF8E4F51);
+  static const Color sageInk = Color(0xFF4A603E);
+
+  static const Color cyan = teal;
+  static const Color cyanDeep = tealInk;
+  static const Color red = roseInk;
+  static const Color navy = ink;
+  static const Color navySoft = tealInk;
+  static const Color lime = sage;
+}
+
+/// VS Code modern-layout cards: 1px frame, tight radius, no drop shadow.
+class StarkChrome {
+  const StarkChrome._();
+
+  static const double radius = 8;
+  static const double gutter = 8;
+  static const double margin = 12;
+
+  static BoxDecoration card({Color color = StarkColors.surface}) {
+    return BoxDecoration(
+      color: color,
+      borderRadius: BorderRadius.circular(radius),
+      border: Border.all(color: StarkColors.line),
+    );
+  }
 }
 
 ThemeData buildStarkTheme() {
   final ColorScheme scheme = ColorScheme.fromSeed(
-    seedColor: StarkColors.cyan,
+    seedColor: StarkColors.teal,
     brightness: Brightness.light,
   ).copyWith(
-    primary: StarkColors.cyanDeep,
+    primary: StarkColors.teal,
     onPrimary: Colors.white,
-    secondary: const Color(0xFF3C8F26),
-    onSecondary: Colors.white,
-    error: StarkColors.red,
+    secondary: StarkColors.sage,
+    onSecondary: StarkColors.ink,
+    error: StarkColors.roseInk,
     surface: StarkColors.surface,
     onSurface: StarkColors.ink,
   );
 
   const TextStyle titleStyle = TextStyle(
+    fontFamily: 'Nunito',
     fontSize: 22,
     fontWeight: FontWeight.w700,
-    letterSpacing: -0.3,
+    letterSpacing: -0.2,
     color: StarkColors.ink,
   );
+
+  final rounded = RoundedRectangleBorder(borderRadius: BorderRadius.circular(StarkChrome.radius));
 
   return ThemeData(
     useMaterial3: true,
     colorScheme: scheme,
-    scaffoldBackgroundColor: StarkColors.canvas,
-    fontFamily: 'Roboto',
+    scaffoldBackgroundColor: Colors.transparent,
+    fontFamily: 'Nunito',
     visualDensity: VisualDensity.standard,
     dividerTheme: const DividerThemeData(color: StarkColors.line, thickness: 1, space: 1),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(color: StarkColors.teal),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -59,91 +90,98 @@ ThemeData buildStarkTheme() {
       headlineSmall: titleStyle,
       titleLarge: titleStyle,
       titleMedium: TextStyle(
+        fontFamily: 'Nunito',
         fontSize: 15,
         fontWeight: FontWeight.w600,
         color: StarkColors.ink,
       ),
-      bodyMedium: TextStyle(fontSize: 14, color: StarkColors.ink, height: 1.4),
-      bodySmall: TextStyle(fontSize: 12, color: StarkColors.inkMuted, height: 1.4),
+      bodyMedium: TextStyle(fontFamily: 'Nunito', fontSize: 14, color: StarkColors.ink, height: 1.45),
+      bodySmall: TextStyle(fontFamily: 'Nunito', fontSize: 12, color: StarkColors.inkMuted, height: 1.45),
       labelLarge: TextStyle(
+        fontFamily: 'Nunito',
         fontSize: 12,
         fontWeight: FontWeight.w700,
-        letterSpacing: 0.8,
+        letterSpacing: 0.6,
         color: StarkColors.inkMuted,
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: Colors.white,
+      fillColor: StarkColors.surface,
       contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-      hintStyle: const TextStyle(fontSize: 13, color: StarkColors.inkMuted),
-      labelStyle: const TextStyle(fontSize: 13, color: StarkColors.inkMuted),
-      floatingLabelStyle: const TextStyle(fontSize: 13, color: StarkColors.cyanDeep, fontWeight: FontWeight.w600),
-      errorStyle: const TextStyle(fontSize: 12, color: StarkColors.red, height: 1.3),
+      hintStyle: const TextStyle(fontFamily: 'Nunito', fontSize: 13, color: StarkColors.inkMuted),
+      labelStyle: const TextStyle(fontFamily: 'Nunito', fontSize: 13, color: StarkColors.inkMuted),
+      floatingLabelStyle: const TextStyle(
+        fontFamily: 'Nunito',
+        fontSize: 13,
+        color: StarkColors.tealInk,
+        fontWeight: FontWeight.w600,
+      ),
+      errorStyle: const TextStyle(fontFamily: 'Nunito', fontSize: 12, color: StarkColors.roseInk, height: 1.3),
       border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(StarkChrome.radius),
         borderSide: const BorderSide(color: StarkColors.line),
       ),
       enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(StarkChrome.radius),
         borderSide: const BorderSide(color: StarkColors.line),
       ),
       focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: StarkColors.cyan, width: 1.6),
+        borderRadius: BorderRadius.circular(StarkChrome.radius),
+        borderSide: const BorderSide(color: StarkColors.teal, width: 1.4),
       ),
       errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: StarkColors.red),
+        borderRadius: BorderRadius.circular(StarkChrome.radius),
+        borderSide: const BorderSide(color: StarkColors.rose),
       ),
       focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(10),
-        borderSide: const BorderSide(color: StarkColors.red, width: 1.6),
+        borderRadius: BorderRadius.circular(StarkChrome.radius),
+        borderSide: const BorderSide(color: StarkColors.roseInk, width: 1.4),
       ),
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
-        backgroundColor: StarkColors.cyanDeep,
+        backgroundColor: StarkColors.teal,
         foregroundColor: Colors.white,
-        minimumSize: const Size(0, 46),
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        minimumSize: const Size(0, 44),
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+        shape: rounded,
+        textStyle: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: OutlinedButton.styleFrom(
         foregroundColor: StarkColors.ink,
-        minimumSize: const Size(0, 46),
+        minimumSize: const Size(0, 44),
         side: const BorderSide(color: StarkColors.line),
-        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        shape: rounded,
+        textStyle: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700),
       ),
     ),
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
-        foregroundColor: StarkColors.cyanDeep,
-        textStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+        foregroundColor: StarkColors.tealInk,
+        textStyle: const TextStyle(fontFamily: 'Nunito', fontSize: 14, fontWeight: FontWeight.w700),
       ),
     ),
     iconButtonTheme: IconButtonThemeData(
       style: IconButton.styleFrom(
         foregroundColor: StarkColors.inkMuted,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
       ),
     ),
     dialogTheme: DialogThemeData(
-      backgroundColor: Colors.white,
-      surfaceTintColor: Colors.white,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+      backgroundColor: StarkColors.surface,
+      surfaceTintColor: StarkColors.surface,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(StarkChrome.radius)),
       titleTextStyle: titleStyle,
     ),
     snackBarTheme: SnackBarThemeData(
       behavior: SnackBarBehavior.floating,
-      backgroundColor: StarkColors.navy,
-      contentTextStyle: const TextStyle(color: Colors.white, fontSize: 13),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      backgroundColor: StarkColors.ink,
+      contentTextStyle: const TextStyle(fontFamily: 'Nunito', color: StarkColors.cream, fontSize: 13),
+      shape: rounded,
     ),
     tooltipTheme: const TooltipThemeData(
       waitDuration: Duration(milliseconds: 400),
@@ -151,13 +189,17 @@ ThemeData buildStarkTheme() {
     dropdownMenuTheme: DropdownMenuThemeData(
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
-        fillColor: Colors.white,
+        fillColor: StarkColors.surface,
         contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(StarkChrome.radius),
           borderSide: const BorderSide(color: StarkColors.line),
         ),
       ),
+    ),
+    dataTableTheme: DataTableThemeData(
+      headingRowColor: WidgetStatePropertyAll(StarkColors.sage.withValues(alpha: 0.18)),
+      dividerThickness: 1,
     ),
   );
 }

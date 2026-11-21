@@ -16,18 +16,18 @@ class BrandMark extends StatelessWidget {
       height: size,
       alignment: Alignment.center,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(size * 0.28),
+        borderRadius: BorderRadius.circular(size * 0.22),
         gradient: const LinearGradient(
-          colors: [Color(0xFF00C0F0), Color(0xFF0060F0)],
+          colors: [StarkColors.sage, StarkColors.teal],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: glow
             ? [
                 BoxShadow(
-                  color: StarkColors.cyan.withValues(alpha: 0.35),
-                  blurRadius: size * 0.65,
-                  spreadRadius: size * 0.04,
+                  color: StarkColors.teal.withValues(alpha: 0.22),
+                  blurRadius: size * 0.45,
+                  spreadRadius: 0,
                 ),
               ]
             : null,
@@ -35,10 +35,11 @@ class BrandMark extends StatelessWidget {
       child: Text(
         'SG',
         style: TextStyle(
-          color: Colors.white,
+          color: StarkColors.cream,
+          fontFamily: 'Nunito',
           fontWeight: FontWeight.w800,
           fontSize: size * 0.34,
-          letterSpacing: size * 0.015,
+          letterSpacing: size * 0.01,
           height: 1,
         ),
       ),
@@ -46,7 +47,7 @@ class BrandMark extends StatelessWidget {
   }
 }
 
-/// Mark + "Stark Group" wordmark, for dark surfaces.
+/// Mark plus the Stark Group name, for the light workbench surfaces.
 class BrandWordmark extends StatelessWidget {
   const BrandWordmark({super.key, this.markSize = 38, this.compact = false});
 
@@ -58,7 +59,7 @@ class BrandWordmark extends StatelessWidget {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
-        BrandMark(size: markSize, glow: true),
+        BrandMark(size: markSize),
         const SizedBox(width: 12),
         Flexible(
           child: Column(
@@ -66,27 +67,27 @@ class BrandWordmark extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'STARK GROUP',
+                'Stark Group',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w800,
-                  fontSize: compact ? 13 : 15,
-                  letterSpacing: compact ? 1.6 : 2.2,
+                  fontFamily: 'Fraunces',
+                  color: StarkColors.ink,
+                  fontWeight: FontWeight.w500,
+                  fontSize: compact ? 15 : 18,
                   height: 1.1,
                 ),
               ),
-              const SizedBox(height: 3),
+              const SizedBox(height: 2),
               Text(
-                compact ? 'VEHICLE MANAGEMENT' : 'VEHICLE MANAGEMENT SYSTEM',
+                compact ? 'Vehicles' : 'Vehicle management',
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
-                  color: StarkColors.cyan.withValues(alpha: 0.9),
+                  fontFamily: 'Nunito',
+                  color: StarkColors.tealInk,
                   fontWeight: FontWeight.w600,
-                  fontSize: compact ? 8.5 : 9.5,
-                  letterSpacing: compact ? 1.2 : 1.6,
+                  fontSize: compact ? 11 : 12,
                   height: 1.1,
                 ),
               ),

@@ -230,19 +230,25 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
           children: [
             const Text(
               'Fleet Register',
-              style: TextStyle(fontSize: 26, fontWeight: FontWeight.w800, color: StarkColors.ink, letterSpacing: -0.6),
+              style: TextStyle(
+                fontFamily: 'Fraunces',
+                fontSize: 28,
+                fontWeight: FontWeight.w500,
+                color: StarkColors.ink,
+                height: 1.15,
+              ),
             ),
             const SizedBox(width: 12),
             Container(
               key: const Key('vehicles.count'),
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
               decoration: BoxDecoration(
-                color: StarkColors.navy.withValues(alpha: 0.06),
+                color: StarkColors.sage.withValues(alpha: 0.35),
                 borderRadius: BorderRadius.circular(999),
               ),
               child: Text(
                 _data == null ? '…' : '${_data!.totalElements} vehicles',
-                style: const TextStyle(fontSize: 11.5, fontWeight: FontWeight.w700, color: StarkColors.navySoft),
+                style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w700, color: StarkColors.sageInk),
               ),
             ),
           ],
@@ -294,21 +300,7 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
   }
 
   Widget _panel() {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: StarkColors.line),
-        boxShadow: [
-          BoxShadow(
-            color: StarkColors.navy.withValues(alpha: 0.04),
-            blurRadius: 24,
-            offset: const Offset(0, 10),
-          ),
-        ],
-      ),
-      clipBehavior: Clip.antiAlias,
-      child: Column(
+    return Column(
         // Stretch so the data table (which reports an intrinsic width) fills
         // the panel instead of being centred by the default alignment.
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -338,7 +330,6 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
             ),
           ],
         ],
-      ),
     );
   }
 
@@ -360,7 +351,7 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
             child: Text(
               _error!,
               key: const Key('vehicles.error'),
-              style: const TextStyle(fontSize: 12.5, color: Color(0xFFB0182A), height: 1.4),
+              style: const TextStyle(fontSize: 12.5, color: StarkColors.roseInk, height: 1.4),
             ),
           ),
           const SizedBox(width: 8),
@@ -402,7 +393,7 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
       headingRowHeight: 46,
       dataRowMinHeight: 54,
       dataRowMaxHeight: 60,
-      headingRowColor: WidgetStatePropertyAll(StarkColors.canvas.withValues(alpha: 0.7)),
+      headingRowColor: WidgetStatePropertyAll(StarkColors.sage.withValues(alpha: 0.16)),
       headingTextStyle: const TextStyle(
         fontSize: 10.5,
         fontWeight: FontWeight.w700,
@@ -507,8 +498,8 @@ class _VehiclesScreenState extends State<VehiclesScreen> {
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        color: StarkColors.cream,
+        borderRadius: BorderRadius.circular(StarkChrome.radius),
         border: Border.all(color: StarkColors.line),
       ),
       child: Column(

@@ -304,7 +304,7 @@ class _VehicleFormDialogState extends State<VehicleFormDialog> {
                             Expanded(
                               child: Text(
                                 _error!,
-                                style: const TextStyle(fontSize: 12.5, color: Color(0xFFB0182A), height: 1.35),
+                                style: const TextStyle(fontSize: 12.5, color: StarkColors.roseInk, height: 1.35),
                               ),
                             ),
                           ],

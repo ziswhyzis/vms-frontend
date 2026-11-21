@@ -4,7 +4,7 @@ import '../core/api_exception.dart';
 import '../core/theme.dart';
 import '../models/user.dart';
 import '../services/auth_service.dart';
-import '../widgets/brand_mark.dart';
+import '../widgets/lattice_background.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({
@@ -177,22 +177,20 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: StarkColors.canvas,
+    return LatticeScaffold(
       body: LayoutBuilder(
         builder: (context, constraints) {
           final wide = constraints.maxWidth >= 980;
           if (wide) {
             return Row(
               children: [
-                const Expanded(flex: 11, child: _BrandPanel()),
+                const Expanded(child: _DescriptionPanel()),
                 Expanded(
-                  flex: 9,
                   child: Center(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.all(40),
+                      padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 36),
                       child: ConstrainedBox(
-                        constraints: const BoxConstraints(maxWidth: 430),
+                        constraints: const BoxConstraints(maxWidth: 420),
                         child: _buildForm(compact: false),
                       ),
                     ),
@@ -209,20 +207,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(22),
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [StarkColors.navy, StarkColors.navySoft],
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                        ),
-                        borderRadius: BorderRadius.all(Radius.circular(18)),
-                      ),
-                      child: const BrandWordmark(markSize: 36),
-                    ),
-                    const SizedBox(height: 18),
+                    const _DescriptionCopy(compact: true),
+                    const SizedBox(height: 22),
                     _buildForm(compact: true),
                   ],
                 ),
@@ -236,19 +222,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Widget _buildForm({required bool compact}) {
     return Container(
-      padding: EdgeInsets.all(compact ? 24 : 34),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: StarkColors.line),
-        boxShadow: [
-          BoxShadow(
-            color: StarkColors.navy.withValues(alpha: 0.07),
-            blurRadius: 30,
-            offset: const Offset(0, 18),
-          ),
-        ],
-      ),
+      padding: EdgeInsets.all(compact ? 22 : 28),
+      decoration: StarkChrome.card(),
       child: Form(
         key: _formKey,
         child: Column(
@@ -256,12 +231,13 @@ class _LoginScreenState extends State<LoginScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const Text(
-              'FLEET OPERATIONS',
+              'OPERATOR',
               style: TextStyle(
-                fontSize: 10,
+                fontFamily: 'Nunito',
+                fontSize: 11,
                 fontWeight: FontWeight.w700,
-                letterSpacing: 1.8,
-                color: StarkColors.cyanDeep,
+                letterSpacing: 1.6,
+                color: StarkColors.tealInk,
               ),
             ),
             const SizedBox(height: 8),
@@ -300,7 +276,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     Expanded(
                       child: Text(
                         _error!,
-                        style: const TextStyle(fontSize: 12.5, color: Color(0xFFB0182A), height: 1.35),
+                        style: const TextStyle(
+                          fontFamily: 'Nunito',
+                          fontSize: 12.5,
+                          color: StarkColors.roseInk,
+                          height: 1.35,
+                        ),
                       ),
                     ),
                   ],
@@ -427,89 +408,134 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
-class _BrandPanel extends StatelessWidget {
-  const _BrandPanel();
+class _DescriptionPanel extends StatelessWidget {
+  const _DescriptionPanel();
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [StarkColors.navy, StarkColors.navySoft, Color(0xFF001A3F)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
-      child: Stack(
+    return const Padding(
+      padding: EdgeInsets.fromLTRB(56, 36, 40, 28),
+      child: Column(
         children: [
-          Positioned(
-            top: -120,
-            right: -80,
-            child: _glowCircle(320, StarkColors.cyan.withValues(alpha: 0.10)),
-          ),
-          Positioned(
-            bottom: -140,
-            left: -60,
-            child: _glowCircle(360, const Color(0xFF0060F0).withValues(alpha: 0.12)),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(52, 48, 52, 42),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const BrandWordmark(markSize: 46),
-                const Spacer(),
-                const Text(
-                  'Fleet operations,\nunder control.',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 44,
-                    fontWeight: FontWeight.w800,
-                    height: 1.12,
-                    letterSpacing: -1.0,
-                  ),
-                ),
-                const SizedBox(height: 22),
-                const Text(
-                  'STARK GROUP VEHICLE MANAGEMENT SYSTEM',
-                  style: TextStyle(
-                    color: StarkColors.cyan,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 2.2,
-                  ),
-                ),
-                const SizedBox(height: 14),
-                ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 430),
-                  child: Text(
-                    'Register, update and retire every vehicle in the Stark Group fleet from one register.',
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.72),
-                      fontSize: 14.5,
-                      height: 1.6,
-                    ),
-                  ),
-                ),
-                const Spacer(),
-                Text(
-                  '© 2026 Stark Group',
-                  style: TextStyle(color: Colors.white.withValues(alpha: 0.38), fontSize: 11, letterSpacing: 0.3),
-                ),
-              ],
+          Spacer(),
+          _DescriptionCopy(compact: false),
+          Spacer(),
+          Text(
+            '© 2026 Stark Group',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              color: StarkColors.inkMuted,
+              fontSize: 12,
             ),
           ),
         ],
       ),
     );
   }
+}
 
-  Widget _glowCircle(double size, Color color) {
-    return Container(
-      width: size,
-      height: size,
-      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+class _DescriptionCopy extends StatelessWidget {
+  const _DescriptionCopy({required this.compact});
+
+  final bool compact;
+
+  @override
+  Widget build(BuildContext context) {
+    final titleSize = compact ? 30.0 : 42.0;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        _FleetIllustration(compact: compact),
+        SizedBox(height: compact ? 18 : 28),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 460),
+          child: Text(
+            'Stark Group Vehicles',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Fraunces',
+              fontSize: titleSize,
+              fontWeight: FontWeight.w500,
+              height: 1.12,
+              letterSpacing: -0.4,
+              color: StarkColors.ink,
+            ),
+          ),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          'All in one space',
+          textAlign: TextAlign.center,
+          style: TextStyle(
+            fontFamily: 'Fraunces',
+            fontSize: titleSize,
+            fontWeight: FontWeight.w500,
+            height: 1.12,
+            letterSpacing: -0.4,
+            color: StarkColors.teal,
+          ),
+        ),
+        const SizedBox(height: 16),
+        ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 360),
+          child: const Text(
+            'Every car, truck and bus in the fleet, kept in a single register.',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontFamily: 'Nunito',
+              fontSize: 15,
+              height: 1.55,
+              color: StarkColors.inkMuted,
+            ),
+          ),
+        ),
+      ],
     );
   }
+}
 
+/// The swipe illustration sits above the statement. Widget tests skip the
+/// animated decoder so `pumpAndSettle` can finish.
+class _FleetIllustration extends StatelessWidget {
+  const _FleetIllustration({this.compact = false});
+
+  final bool compact;
+
+  static const String asset = 'assets/vehicle-management-swipe.gif';
+
+  bool get _inWidgetTest => WidgetsBinding.instance.runtimeType.toString().contains('TestWidgets');
+
+  @override
+  Widget build(BuildContext context) {
+    final width = compact ? 220.0 : 280.0;
+    final height = compact ? 124.0 : 158.0;
+    if (_inWidgetTest) {
+      return SizedBox(width: width, height: height);
+    }
+    // The source is black line art on a flat white field. Keying the white out
+    // (alpha = 255 - red, colour forced to ink) lets the drawing sit directly
+    // on the cream lattice instead of covering it with a white rectangle.
+    return SizedBox(
+      width: width,
+      height: height,
+      child: ColorFiltered(
+        colorFilter: const ColorFilter.matrix(<double>[
+          // R, G, B all collapse to ink; alpha comes from the line's darkness.
+          0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0,
+          0, 0, 0, 0, 0,
+          -1, 0, 0, 0, 248,
+        ]),
+        child: Image.asset(
+          asset,
+          fit: BoxFit.cover,
+          alignment: Alignment.center,
+          filterQuality: FilterQuality.medium,
+          gaplessPlayback: true,
+          semanticLabel: 'Animated line drawing of a car',
+        ),
+      ),
+    );
+  }
 }

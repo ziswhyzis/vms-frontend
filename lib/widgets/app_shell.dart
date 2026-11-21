@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import '../core/theme.dart';
 import '../models/user.dart';
 import 'brand_mark.dart';
+import 'lattice_background.dart';
 
-/// Application chrome: 250px navy sidebar on wide screens, drawer on narrow ones.
+/// Sidebar and register sit as separate framed cards on the lattice,
+/// the same way VS Code floats the side bar and the editor.
 class AppShell extends StatelessWidget {
   const AppShell({
     super.key,
@@ -24,30 +26,48 @@ class AppShell extends StatelessWidget {
         final wide = constraints.maxWidth >= 1000;
         final sidebar = _Sidebar(user: user, onSignOut: onSignOut);
 
-        return Scaffold(
-          backgroundColor: StarkColors.canvas,
+        return LatticeScaffold(
           drawer: wide
               ? null
               : Drawer(
-                  width: 272,
-                  backgroundColor: Colors.transparent,
+                  width: 280,
+                  backgroundColor: StarkColors.surface,
+                  shape: const RoundedRectangleBorder(
+                    borderRadius: BorderRadius.horizontal(right: Radius.circular(StarkChrome.radius)),
+                    side: BorderSide(color: StarkColors.line),
+                  ),
                   child: sidebar,
                 ),
-          body: wide
-              ? Row(
-                  children: [
-                    SizedBox(width: 250, child: sidebar),
-                    Expanded(child: child),
-                  ],
-                )
-              : Column(
-                  children: [
-                    _MobileBar(user: user, onSignOut: onSignOut),
-                    Expanded(child: child),
-                  ],
-                ),
+          body: Padding(
+            padding: const EdgeInsets.all(StarkChrome.margin),
+            child: wide
+                ? Row(
+                    children: [
+                      SizedBox(width: 250, child: _frame(sidebar)),
+                      const SizedBox(width: StarkChrome.gutter),
+                      Expanded(child: _frame(child)),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      _frame(_MobileBar(user: user, onSignOut: onSignOut)),
+                      const SizedBox(height: StarkChrome.gutter),
+                      Expanded(child: _frame(child)),
+                    ],
+                  ),
+          ),
         );
       },
+    );
+  }
+
+  Widget _frame(Widget child) {
+    return DecoratedBox(
+      decoration: StarkChrome.card(),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(StarkChrome.radius),
+        child: child,
+      ),
     );
   }
 }
@@ -60,39 +80,37 @@ class _Sidebar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [StarkColors.navy, StarkColors.navySoft, Color(0xFF001A3F)],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-      ),
+    return ColoredBox(
+      color: StarkColors.surface,
       child: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 24, 20, 20),
+          padding: const EdgeInsets.fromLTRB(16, 18, 16, 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const BrandWordmark(markSize: 38, compact: true),
-              const SizedBox(height: 34),
+              const BrandWordmark(markSize: 36, compact: true),
+              const SizedBox(height: 28),
               const _NavItem(icon: Icons.directions_car_filled, label: 'Vehicles', selected: true),
               const Spacer(),
               Container(
-                padding: const EdgeInsets.all(12),
+                padding: const EdgeInsets.fromLTRB(10, 8, 4, 8),
                 decoration: BoxDecoration(
-                  color: Colors.white.withValues(alpha: 0.06),
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: Colors.white.withValues(alpha: 0.08)),
+                  color: StarkColors.cream,
+                  borderRadius: BorderRadius.circular(StarkChrome.radius),
+                  border: Border.all(color: StarkColors.line),
                 ),
                 child: Row(
                   children: [
                     CircleAvatar(
-                      radius: 18,
-                      backgroundColor: StarkColors.cyan.withValues(alpha: 0.18),
+                      radius: 16,
+                      backgroundColor: StarkColors.sage.withValues(alpha: 0.45),
                       child: Text(
                         user.initials,
-                        style: const TextStyle(color: StarkColors.cyan, fontWeight: FontWeight.w800, fontSize: 13),
+                        style: const TextStyle(
+                          color: StarkColors.sageInk,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 12,
+                        ),
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -104,12 +122,18 @@ class _Sidebar extends StatelessWidget {
                             user.fullName,
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w600),
+                            style: const TextStyle(
+                              color: StarkColors.ink,
+                              fontSize: 13,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                          const SizedBox(height: 2),
                           Text(
                             user.roleLabel,
-                            style: const TextStyle(color: Colors.white54, fontSize: 10.5, letterSpacing: 0.6),
+                            style: const TextStyle(
+                              color: StarkColors.inkMuted,
+                              fontSize: 11,
+                            ),
                           ),
                         ],
                       ),
@@ -119,17 +143,16 @@ class _Sidebar extends StatelessWidget {
                       onPressed: onSignOut,
                       tooltip: 'Sign out',
                       iconSize: 18,
-                      color: Colors.white70,
-                      hoverColor: Colors.white.withValues(alpha: 0.08),
+                      color: StarkColors.inkMuted,
                       icon: const Icon(Icons.logout),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(height: 18),
+              const SizedBox(height: 14),
               const Text(
                 'Stark Group VMS',
-                style: TextStyle(color: Colors.white38, fontSize: 10.5, letterSpacing: 0.4),
+                style: TextStyle(color: StarkColors.inkMuted, fontSize: 11),
               ),
             ],
           ),
@@ -152,22 +175,16 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = selected ? Colors.white : Colors.white.withValues(alpha: 0.65);
+    final foreground = selected ? StarkColors.tealInk : StarkColors.inkMuted;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 11),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       decoration: BoxDecoration(
-        color: selected ? Colors.white.withValues(alpha: 0.09) : Colors.transparent,
-        borderRadius: BorderRadius.circular(9),
-        border: Border(
-          left: BorderSide(
-            color: selected ? StarkColors.cyan : Colors.transparent,
-            width: 3,
-          ),
-        ),
+        color: selected ? StarkColors.sage.withValues(alpha: 0.32) : Colors.transparent,
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
         children: [
-          Icon(icon, size: 18, color: selected ? StarkColors.cyan : foreground),
+          Icon(icon, size: 18, color: selected ? StarkColors.teal : foreground),
           const SizedBox(width: 10),
           Expanded(
             child: Text(
@@ -176,8 +193,8 @@ class _NavItem extends StatelessWidget {
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 color: foreground,
-                fontSize: 13,
-                fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                fontSize: 13.5,
+                fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
               ),
             ),
           ),
@@ -195,34 +212,27 @@ class _MobileBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          colors: [StarkColors.navy, StarkColors.navySoft],
-          begin: Alignment.centerLeft,
-          end: Alignment.centerRight,
-        ),
-      ),
+    return ColoredBox(
+      color: StarkColors.surface,
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
           child: Row(
             children: [
               Builder(
                 builder: (innerContext) => IconButton(
                   onPressed: () => Scaffold.of(innerContext).openDrawer(),
                   tooltip: 'Open navigation',
-                  icon: const Icon(Icons.menu, color: Colors.white),
+                  icon: const Icon(Icons.menu, color: StarkColors.ink),
                 ),
               ),
               const SizedBox(width: 2),
-              const BrandWordmark(markSize: 30, compact: true),
-              const Spacer(),
+              const Expanded(child: BrandWordmark(markSize: 28, compact: true)),
               IconButton(
                 onPressed: onSignOut,
                 tooltip: 'Sign out',
-                icon: const Icon(Icons.logout, color: Colors.white70, size: 20),
+                icon: const Icon(Icons.logout, color: StarkColors.inkMuted, size: 20),
               ),
             ],
           ),
